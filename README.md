@@ -42,17 +42,17 @@ Write a commit message describing what you did in this update:
    ```bash
    git commit -m "Brief description of changes"
 
-8. Pull Latest Changes from main
+7. Pull Latest Changes from main
 Before pushing your changes, make sure you have the latest version of the project:
    ```bash
    git pull origin main
 
-10. Push Your Changes
+8. Push Your Changes
 Once you have the latest code and no conflicts, push your changes to the branch you're working in:
    ```bash
    git push
 
-12. Create a Pull Request (PR)
+9. Create a Pull Request (PR)
 After pushing your changes, go to GitHub and create a Pull Request (PR) to merge your code into the main branch. Make sure to:
 
 Choose the correct branch as the source.

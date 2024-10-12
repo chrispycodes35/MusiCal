@@ -1,3 +1,6 @@
+/* App.css is usually for styles related to the App component and its direct children. 
+If a component's styles become complex, you may want to create separate CSS files for 
+that specific component or page (as you are doing with components/ and pages/ folders). */
 .App {
     text-align: center;
     font-family: Arial, sans-serif;

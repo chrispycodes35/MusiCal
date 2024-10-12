@@ -1,3 +1,6 @@
+/* index.css is  focused on global styling for the entire application, like resetting default browser styles, 
+setting fonts, global link styles, or body-level styles. */
+
 /* Reset some default browser styles */
 * {
     margin: 0;

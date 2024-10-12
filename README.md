@@ -27,7 +27,7 @@ We have **4 branches** where you can contribute to different parts of the projec
 1. Pull the Latest Code
 Before starting any work, always pull the latest version of the project from the main branch to make sure you're up-to-date:
    ```bash
-git pull origin main
+   git pull origin main
 
 3. Work on Your Feature or Fix
 Make changes in the codebase according to the branch you're working in.
@@ -35,22 +35,22 @@ Make changes in the codebase according to the branch you're working in.
 4. Stage Your Changes
 Once you're ready to save your changes, add the files you worked on. You can add specific files or entire folders:
    ```bash
-git add {file_or_folder_name}
+   git add {file_or_folder_name}
 
 6. Commit Your Changes
 Write a commit message describing what you did in this update:
    ```bash
-git commit -m "Brief description of changes"
+   git commit -m "Brief description of changes"
 
 8. Pull Latest Changes from main
 Before pushing your changes, make sure you have the latest version of the project:
    ```bash
-git pull origin main
+   git pull origin main
 
 10. Push Your Changes
 Once you have the latest code and no conflicts, push your changes to the branch you're working in:
    ```bash
-git push
+   git push
 
 12. Create a Pull Request (PR)
 After pushing your changes, go to GitHub and create a Pull Request (PR) to merge your code into the main branch. Make sure to:

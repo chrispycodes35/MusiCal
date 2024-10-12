@@ -1,0 +1,8 @@
+/backend
+  /app
+    /routes         # API routes (song retrieval, user color assignment)
+    /models         # Define data models
+  app.py            # Main entry point for the Flask app
+  requirements.txt  # Project dependencies
+
+  

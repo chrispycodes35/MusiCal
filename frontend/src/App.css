@@ -2,7 +2,11 @@
 If a component's styles become complex, you may want to create separate CSS files for 
 that specific component or page (as you are doing with components/ and pages/ folders). */
 .App {
-    text-align: center;
-    font-family: Arial, sans-serif;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
   }
   

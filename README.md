@@ -26,6 +26,7 @@ We have **4 branches** where you can contribute to different parts of the projec
 
 1. Pull the Latest Code
 - Before starting any work, always pull the latest version of the project from the main branch to make sure you're up-to-date:
+  
    ```bash
    git pull origin main
 
@@ -34,21 +35,25 @@ We have **4 branches** where you can contribute to different parts of the projec
 
 4. Stage Your Changes
 - Once you're ready to save your changes, add the files you worked on. You can add specific files or entire folders:
+  
    ```bash
    git add {file_or_folder_name}
 
 6. Commit Your Changes
 - Write a commit message describing what you did in this update:
+  
    ```bash
    git commit -m "Brief description of changes"
 
 7. Pull Latest Changes from main
 - Before pushing your changes, make sure you have the latest version of the project:
+  
    ```bash
    git pull origin main
 
 8. Push Your Changes
 - Once you have the latest code and no conflicts, push your changes to the branch you're working in:
+  
    ```bash
    git push
 

@@ -7,7 +7,7 @@ import logging
 app = Flask(__name__)
 
 client_credentials_manager = SpotifyClientCredentials(
-    client_id='your_spotify_client_id',
+    client_id='your_spotify_client_id', # We still need to gain access to the Spotify credentials to use API
     client_secret='your_spotify_client_secret'
 )
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)

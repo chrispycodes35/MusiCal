@@ -18,8 +18,13 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <LandingPage />} />
+                {/* Always direct users to LandingPage first */}
+                <Route path="/" element={<LandingPage />} />
+
+                {/* HomePage accessible only if authenticated */}
                 <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
+
+                {/* Callback route to handle Spotify login */}
                 <Route path="/callback" element={<CallbackPage onAuthenticate={() => setIsAuthenticated(true)} />} />
             </Routes>
         </Router>

@@ -6,6 +6,7 @@ import HomePage from './pages/Home/HomePage';
 import CallbackPage from './pages/CallBackPage';
 import Footer from './pages/footer';
 import './App.css';
+import About from "./pages/About/About";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,6 +33,10 @@ function App() {
 
                 {/* CallbackPage handles Spotify login and sets isAuthenticated */}
                 <Route path="/callback" element={<CallbackPage onAuthenticate={() => setIsAuthenticated(true)} />} />
+                
+                <Route path="/about" element={<About />} />  {/* Route for About page */}
+
+
             </Routes>
             {/* Display Footer on all pages, passing isAuthenticated and handleLogout */}
             <Footer isLoggedIn={isAuthenticated} onLogout={handleLogout} />

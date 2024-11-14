@@ -1,7 +1,7 @@
 // LandingPage.js
 import React from 'react';
 import './LandingPage.css';
-
+import musicalbg from './musicalbg.png';  // Import the image directly
 
 function LandingPage() {
 

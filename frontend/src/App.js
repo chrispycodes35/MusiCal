@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/Home/HomePage';
 import CallbackPage from './pages/CallBackPage';
-import './App.css';  // Import App CSS globally
+import Footer from './pages/footer';
+import './App.css';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -15,18 +16,25 @@ function App() {
         setIsAuthenticated(!!token);  // Set to true if token exists, false otherwise
     }, []);
 
+    const handleLogout = () => {
+        localStorage.removeItem('spotifyAccessToken'); // Clear the token
+        setIsAuthenticated(false);  // Update authentication status
+    };
+
     return (
         <Router>
             <Routes>
-                {/* Always direct users to LandingPage first */}
+                {/* LandingPage is accessible to all users */}
                 <Route path="/" element={<LandingPage />} />
 
-                {/* HomePage accessible only if authenticated */}
+                {/* HomePage is accessible only if authenticated */}
                 <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
 
-                {/* Callback route to handle Spotify login */}
+                {/* CallbackPage handles Spotify login and sets isAuthenticated */}
                 <Route path="/callback" element={<CallbackPage onAuthenticate={() => setIsAuthenticated(true)} />} />
             </Routes>
+            {/* Display Footer on all pages, passing isAuthenticated and handleLogout */}
+            <Footer isLoggedIn={isAuthenticated} onLogout={handleLogout} />
         </Router>
     );
 }

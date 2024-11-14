@@ -1,34 +1,37 @@
-/* index.css is  focused on global styling for the entire application, like resetting default browser styles, 
-setting fonts, global link styles, or body-level styles. */
+/* index.css */
 
 /* Reset some default browser styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Apply global font and background color */
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
-  }
-  
-  /* Set global link styles */
-  a {
-    color: #61dafb;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Global container styling */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.title {
+    font-size: 4rem; /* Increase the font size */
+    font-weight: bold;
+    margin-bottom: 15px;
+    /* letter-spacing: 0.31em; /* 31% letter spacing */
+}
+/* Apply global font and background color */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif; /* Set Helvetica Neue as the default font */
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Set global link styles */
+a {
+  color: #61dafb;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Global container styling */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}

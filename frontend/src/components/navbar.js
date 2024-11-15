@@ -1,17 +1,28 @@
-// Navigation Bar
 import React from 'react';
-import './Navbar.css';  // For styling the navbar
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import './Navbar.css'; 
 
-function Navbar() {
-  return (
-    <nav className="navbar">
-      <h1>MusiCal</h1>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-      </ul>
-    </nav>
-  );
+function Navbar({ isLoggedIn, onLogout }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    return (
+        <nav className="navbar">
+            <Link to="/home" className={location.pathname === '/home' ? 'active' : ''}>MusiCAL</Link>
+            <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>About</Link>
+            <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>Contact</Link>
+            {isLoggedIn && (
+                <Link 
+                    to="/" 
+                    onClick={(e) => { 
+                        e.preventDefault(); 
+                        onLogout(); 
+                        navigate('/'); 
+                    }} 
+                    className={location.pathname === '/' ? 'active' : ''}>Logout</Link>
+            )}
+        </nav>
+    );
 }
 
 export default Navbar;

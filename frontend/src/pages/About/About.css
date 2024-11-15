@@ -1,15 +1,72 @@
-.about-page{
-    height: 100vh;
+.about-page {
+    height: auto;
     margin: 0;
-    background: linear-gradient(120deg, #f3a183, #e76e91, #774ea1);
-    background-size: 200% 200%;
+    background: linear-gradient(120deg,#774ea1,#e76e91, #f3a183 );
     animation: gradientAnimation 10s ease infinite;
     color: white;
-  }
-  
+    font-family: "Instrument Sans";
+    display: flex;
+    flex-direction: column;
+    z-index: 0;
+
+}
+
 @keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.hero {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
   
+}
+
+
+.main-body {
+    max-width: 80vh;
+    display: flex;
+    flex-direction: column;
+    padding: 3vh;
+    padding-left: 6.5vh;
+}
+
+.main-body h1 {
+    font-size: 12vh;
+    margin-top: 8vh;
+}
+
+p {
+    font-size: 2.5vh;
+}
+
+.record-img-container{
+  position:relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.record-img-container img {
+
+    right: 0;
+    position: absolute;
+    
+
+}
+.mission, .vision {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.mission-vision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+    max-width: 80vh;
+  
+    padding-left: 6.5vh;
+}

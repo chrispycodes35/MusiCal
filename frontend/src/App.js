@@ -1,4 +1,3 @@
-// App.js
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
@@ -7,6 +6,7 @@ import CallbackPage from './pages/CallBackPage';
 import Footer from './pages/footer';
 import './App.css';
 import About from "./pages/About/About";
+import Navbar from "./components/navbar";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -23,25 +23,33 @@ function App() {
     };
 
     return (
-        <Router>
-            <Routes>
-                {/* LandingPage is accessible to all users */}
-                <Route path="/" element={<LandingPage />} />
+        <div className="app-container">
+            <Router>
+                {/* Conditionally render Navbar if authenticated, otherwise Footer */}
+                {isAuthenticated ? (
+                    <Navbar isLoggedIn={isAuthenticated} onLogout={handleLogout} />
+                ) : (
+                    <Footer isLoggedIn={isAuthenticated} onLogout={handleLogout} />
+                )}
 
-                {/* HomePage is accessible only if authenticated */}
-                <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
+                <Routes>
+                    {/* LandingPage is accessible to all users */}
+                    <Route path="/" element={<LandingPage />} />
 
-                {/* CallbackPage handles Spotify login and sets isAuthenticated */}
-                <Route path="/callback" element={<CallbackPage onAuthenticate={() => setIsAuthenticated(true)} />} />
-                
-                <Route path="/about" element={<About />} />  {/* Route for About page */}
+                    {/* HomePage is accessible only if authenticated */}
+                    <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
 
+                    {/* CallbackPage handles Spotify login and sets isAuthenticated */}
+                    <Route path="/callback" element={<CallbackPage onAuthenticate={() => setIsAuthenticated(true)} />} />
 
-            </Routes>
-            {/* Display Footer on all pages, passing isAuthenticated and handleLogout */}
-            <Footer isLoggedIn={isAuthenticated} onLogout={handleLogout} />
-        </Router>
+                    <Route path="/about" element={<About />} />  {/* Route for About page */}
+                </Routes>
+            </Router>
+        </div>
     );
 }
 
 export default App;
+
+
+

@@ -8,6 +8,8 @@ function Footer({ isLoggedIn, onLogout }) {
 
     return (
         <footer className="footer">
+
+            
             {isLoggedIn ? (
                 <>
                     <a href="#" onClick={(e) => { e.preventDefault(); navigate('/home'); }}>Home</a>

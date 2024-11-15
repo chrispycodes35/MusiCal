@@ -1,24 +1,37 @@
-/* footer.css */
+
 
 .footer {
+    background: linear-gradient(120deg,#774ea1,#e76e91, #f3a183 );;
+    padding: 1rem;
     display: flex;
-    justify-content: space-around; /* Evenly distribute links across the footer */
-    align-items: center;
-    padding: 20px 0; /* Add padding on top and bottom */
-    background-color: #ffffff; /* Background color of footer */
-    color: #000000; /* Text color */
-    width: 100%; /* Full width of the container */
-    border-top: 1px solid #e0e0e0; /* Optional: Add a top border for a subtle separation */
-}
+    justify-content: center;
+    color: white;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    bottom: 0;
+    
+  }
 
-.footer a {
-    color: #000000;
+  
+  
+  .footer ul {
+    list-style-type: none;
+  }
+  
+  .footer li {
+    display: inline;
+    margin: 0 1rem;
+  }
+  
+  .footer a {
+    color: white;
     text-decoration: none;
-    font-size: 1rem;
-    padding: 10px 15px; /* Adds space around each link for a larger click area */
-    font-family: Arial, sans-serif;
+    padding: 10px 40px;
+    font-family: "Instrument Sans";
+    font-weight: 550;
+  }
+  
+  .footer a:hover {
+    transform: scale(1.04);
 }
-
-.footer a:hover {
-    text-decoration: underline; /* Add underline on hover */
-}
+  

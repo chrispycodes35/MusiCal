@@ -1,0 +1,17 @@
+/* footer.css */
+
+.footer button {
+    background: none;
+    border: none;
+    color: #0000EE; /* Link color */
+    font-size: 1rem;
+    text-decoration: underline;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    padding: 10px 15px;
+}
+
+.footer button:hover {
+    color: #551A8B; /* Darker color on hover */
+    text-decoration: underline;
+}

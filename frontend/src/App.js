@@ -1,20 +1,20 @@
 // App.js
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import HomePage from './pages/Home/HomePage';
 import CallbackPage from './pages/CallBackPage';
-import Footer from './pages/footer';
+import Navbar from './components/Navbar'; // Ensure Navbar's capitalization matches the file name
+import Footer from './components/Footer'; // Ensure Footer's capitalization matches the file name
+import About from './pages/Home/About';
+import Privacy from './pages/Home/Privacy';
+
 import './App.css';
+
+// The rest of your App.js code remains the same
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    // Check if user is authenticated by checking for the token in localStorage
-    useEffect(() => {
-        const token = localStorage.getItem('spotifyAccessToken');
-        setIsAuthenticated(!!token);  // Set to true if token exists, false otherwise
-    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('spotifyAccessToken'); // Clear the token
@@ -23,19 +23,37 @@ function App() {
 
     return (
         <Router>
-            <Routes>
-                {/* LandingPage is accessible to all users */}
-                <Route path="/" element={<LandingPage />} />
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout}>
+                <Routes>
+                    {/* LandingPage is accessible to all users */}
+                    <Route path="/" element={<LandingPage setIsAuthenticated={setIsAuthenticated} />} />
 
-                {/* HomePage is accessible only if authenticated */}
-                <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
+                    {/* HomePage is accessible only if authenticated */}
+                    <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
 
-                {/* CallbackPage handles Spotify login and sets isAuthenticated */}
-                <Route path="/callback" element={<CallbackPage onAuthenticate={() => setIsAuthenticated(true)} />} />
-            </Routes>
-            {/* Display Footer on all pages, passing isAuthenticated and handleLogout */}
-            <Footer isLoggedIn={isAuthenticated} onLogout={handleLogout} />
+                    {/* CallbackPage handles Spotify login and sets isAuthenticated */}
+                    <Route path="/callback" element={<CallbackPage onAuthenticate={() => setIsAuthenticated(true)} />} />
+
+                    <Route path="/about" element={<About />} />
+                    <Route path="/privacy" element={<Privacy />} />
+                </Routes>
+            </Layout>
         </Router>
+    );
+}
+
+function Layout({ children, isAuthenticated, handleLogout }) {
+    const location = useLocation();
+
+    // Show Navbar only on the /home page when the user is authenticated
+    const showNavbar = isAuthenticated && location.pathname === "/home";
+
+    return (
+        <div>
+            {showNavbar && <Navbar onLogout={handleLogout} />}
+            {children}
+            <Footer isLoggedIn={isAuthenticated} onLogout={handleLogout} />
+        </div>
     );
 }
 

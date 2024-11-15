@@ -14,7 +14,7 @@
 }
 /* Apply global font and background color */
 body {
-  font-family: 'Helvetica Neue', Arial, sans-serif; /* Set Helvetica Neue as the default font */
+  font-family: 'Instrument Sans', Arial, sans-serif; /* Set Helvetica Neue as the default font */
   background-color: #f5f5f5;
   color: #333;
 }

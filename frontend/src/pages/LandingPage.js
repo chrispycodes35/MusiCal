@@ -1,14 +1,26 @@
 // LandingPage.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 
-function LandingPage() {
+function LandingPage({ setIsAuthenticated }) {
+    const navigate = useNavigate();
+
     const handleLogin = () => {
-        const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-        const redirectUri = 'http://localhost:3000/callback';
-        const scope = 'user-read-private user-read-email';
-        const authUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
-        window.location.href = authUrl;
+        const token = localStorage.getItem('spotifyAccessToken');
+        
+        if (token) {
+            // If token exists in localStorage, update the authentication state and navigate to home
+            setIsAuthenticated(true);
+            navigate('/home');
+        } else {
+            // Otherwise, proceed with Spotify authentication flow
+            const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+            const redirectUri = 'http://localhost:3000/callback';
+            const scope = 'user-read-private user-read-email';
+            const authUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
+            window.location.href = authUrl;
+        }
     };
 
     return (

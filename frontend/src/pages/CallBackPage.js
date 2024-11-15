@@ -34,19 +34,3 @@ function CallBackPage({ onAuthenticate }) {
 }
 
 export default CallBackPage;
-
-
-/*
-Now that the access_token is saved in localStorage, you can use it to make authorized requests to 
-the Spotify API. For example, in any component that needs to make Spotify API calls, you can retrieve 
-the token as follows:
-const accessToken = localStorage.getItem('spotifyAccessToken');
-When making API requests, set the authorization header with this token:
-fetch('https://api.spotify.com/v1/me', {
-  headers: {
-    'Authorization': `Bearer ${accessToken}`
-  }
-})
-  .then(response => response.json())
-  .then(data => console.log(data));
-*/

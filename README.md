@@ -55,7 +55,7 @@ We have **4 branches** where you can contribute to different parts of the projec
 - Once you have the latest code and no conflicts, push your changes to the branch you're working in:
   
    ```bash
-   git push
+   git push {branch_name}
 
 9. Create a Pull Request (PR)
 - After pushing your changes, go to GitHub and create a Pull Request (PR) to merge your code into the main branch. Make sure to:

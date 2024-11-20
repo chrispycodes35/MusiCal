@@ -25,7 +25,7 @@
     font-family: 'Helvetica Neue', Arial, sans-serif; /* Set Helvetica Neue specifically here */
 }
 
-.landingpage .content, .landingpage .title, .footer button {
+.landingpage .content, .landingpage .title {
     text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
 }
 

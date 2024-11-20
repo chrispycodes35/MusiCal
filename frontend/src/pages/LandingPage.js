@@ -1,26 +1,23 @@
-// LandingPage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 
-function LandingPage({ setIsAuthenticated }) {
-    const navigate = useNavigate();
-
+function LandingPage() {
     const handleLogin = () => {
-        const token = localStorage.getItem('spotifyAccessToken');
-        
-        if (token) {
-            // If token exists in localStorage, update the authentication state and navigate to home
-            setIsAuthenticated(true);
-            navigate('/home');
-        } else {
-            // Otherwise, proceed with Spotify authentication flow
-            const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-            const redirectUri = 'http://localhost:3000/callback';
-            const scope = 'user-read-private user-read-email';
-            const authUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
-            window.location.href = authUrl;
-        }
+        const clientId = 'ec1895b9fcb542cdab38b014c050f097';
+        const redirectUri = 'http://localhost:3000/home';
+        const scope = [
+            'user-library-read',
+            'playlist-read-private',
+            'user-read-recently-played',
+            'user-top-read',
+        ].join(' ');
+
+        const authUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(
+            redirectUri
+        )}&scope=${encodeURIComponent(scope)}`;
+
+        window.location.href = authUrl;
     };
 
     return (
@@ -30,10 +27,11 @@ function LandingPage({ setIsAuthenticated }) {
                 <p className="description">
                     Login to explore your harmonic music recommendations based on a color recommendation system.
                 </p>
-                <button className="login-button" onClick={handleLogin}>Log In</button>
+                <button className="login-button" onClick={handleLogin}>Log In with Spotify</button>
             </div>
         </div>
     );
 }
 
 export default LandingPage;
+

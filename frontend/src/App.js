@@ -14,7 +14,10 @@ import './App.css';
 // The rest of your App.js code remains the same
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        // Check localStorage for a stored token on initial render
+        return Boolean(localStorage.getItem('spotifyAccessToken'));
+    });
 
     const handleLogout = () => {
         localStorage.removeItem('spotifyAccessToken'); // Clear the token
@@ -25,15 +28,9 @@ function App() {
         <Router>
             <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout}>
                 <Routes>
-                    {/* LandingPage is accessible to all users */}
                     <Route path="/" element={<LandingPage setIsAuthenticated={setIsAuthenticated} />} />
-
-                    {/* HomePage is accessible only if authenticated */}
-                    <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
-
-                    {/* CallbackPage handles Spotify login and sets isAuthenticated */}
+                    <Route path="/home" element={<HomePage onAuthenticate={() => setIsAuthenticated(true)}/> } />
                     <Route path="/callback" element={<CallbackPage onAuthenticate={() => setIsAuthenticated(true)} />} />
-
                     <Route path="/about" element={<About />} />
                     <Route path="/privacy" element={<Privacy />} />
                 </Routes>
@@ -41,6 +38,7 @@ function App() {
         </Router>
     );
 }
+
 
 function Layout({ children, isAuthenticated, handleLogout }) {
     const location = useLocation();

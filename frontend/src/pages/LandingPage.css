@@ -1,4 +1,15 @@
 /* LandingPage.css */
+* {
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* Set Helvetica Neue specifically here */
+}
+
+.background {
+    background: url('musicalbg.png') no-repeat center center/cover;
+    min-height: 100vh;
+    min-width: 100vw;
+    position: absolute;
+    z-index: -1;
+    }
 
 .landingpage {
     margin: 0;
@@ -9,11 +20,13 @@
     justify-content: space-between;
     align-items: center;
     min-height: 100vh;
-    background: url('musicalbg.png') no-repeat center center fixed;
-    background-size: cover;
-    color: #75d718;
+    color: white;
     text-align: center;
     font-family: 'Helvetica Neue', Arial, sans-serif; /* Set Helvetica Neue specifically here */
+}
+
+.landingpage .content, .landingpage .title {
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
 }
 
 .content {
@@ -30,8 +43,8 @@
     font-size: 4rem; /* Increase the font size */
     font-weight: bold;
     font-style: italic;
-    margin-bottom: 15px;
-    letter-spacing: 0.35em; /* 31% letter spacing */
+    margin-bottom: 16px;
+    letter-spacing: 0.1em; /* 31% letter spacing */
 }
 
 .description {
@@ -44,38 +57,26 @@
 
 .login-button {
     background-color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
     color: #ffffff;
     padding: 18px 50px;
     font-size: 1.5rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 16px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
+}
+
+.login-button svg {
+    fill: white;
+    height: 2rem;
 }
 
 .login-button:hover {
-    background-color: #333333;
-}
-
-.footer {
-    width: 100%;
-    background-color: #ffffff;
-    color: #000000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 15px 0;
-}
-
-.footer a {
-    color: #000000;
-    margin: 0 20px;
-    text-decoration: none;
-    font-size: 1rem;
-}
-
-.footer a:hover {
-    text-decoration: underline;
+    background-color: #262626;
 }
 
 /* Responsive design adjustments */

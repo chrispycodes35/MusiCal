@@ -53,25 +53,7 @@
   background-color: #4a9cb8; /* Slightly darker shade on hover */
 }
 
-.home .footer {
-  width: 100%;
-  background-color: #ffffff;
-  color: #000000;
-  display: flex;
-  justify-content: center;
-  padding: 10px 0;
-}
 
-.home .footer a {
-  color: #000000;
-  margin: 0 15px;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.home .footer a:hover {
-  text-decoration: underline;
-}
 
 /* Responsive design adjustments */
 @media (max-width: 768px) {

@@ -5,18 +5,18 @@ import './LandingPage.css';
 function LandingPage() {
     const handleLogin = () => {
         const clientId = 'ec1895b9fcb542cdab38b014c050f097';
-        const redirectUri = 'http://localhost:3000/home';
+        const home_page = 'http://localhost:3000/home';
         const scope = [
             'user-library-read',
             'playlist-read-private',
             'user-read-recently-played',
             'user-top-read',
+            'user-read-email',
         ].join(' ');
 
         const authUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(
-            redirectUri
+            home_page
         )}&scope=${encodeURIComponent(scope)}`;
-
         window.location.href = authUrl;
     };
 

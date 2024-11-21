@@ -15,13 +15,14 @@ import './App.css';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(() => {
-        // Check localStorage for a stored token on initial render
         return Boolean(localStorage.getItem('spotifyAccessToken'));
     });
 
     const handleLogout = () => {
-        localStorage.removeItem('spotifyAccessToken'); // Clear the token
-        setIsAuthenticated(false);  // Update authentication status
+        localStorage.removeItem('spotifyAccessToken');
+        setIsAuthenticated(false);  
+        document.cookie = "cookieName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+       // window.location.href = 'https://accounts.spotify.com/en/logout'
     };
 
     return (

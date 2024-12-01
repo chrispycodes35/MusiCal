@@ -8,7 +8,7 @@ function Footer() {
 
     return (
         <footer className="footer">
-            <button onClick={() => navigate('/')}>Home</button>
+            <button onClick={() => navigate('/home')}>Home</button>
             <button onClick={() => navigate('/about')}>About</button>
             <button onClick={() => navigate('/privacy')}>Privacy</button>
         </footer>

@@ -4,33 +4,27 @@ import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'r
 import LandingPage from './pages/LandingPage';
 import HomePage from './pages/Home/HomePage';
 import CallbackPage from './pages/CallBackPage';
-import Navbar from './components/Navbar'; // Ensure Navbar's capitalization matches the file name
-import Footer from './components/Footer'; // Ensure Footer's capitalization matches the file name
+import Navbar from './components/Navbar'; 
+import Footer from './components/Footer'; 
 import About from './pages/Home/About';
 import Privacy from './pages/Home/Privacy';
 
-import './App.css';
-
-// The rest of your App.js code remains the same
-
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(() => {
-        return Boolean(localStorage.getItem('spotifyAccessToken'));
+        const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        return Boolean(localStorage.getItem('userEmail'));
     });
 
     const handleLogout = () => {
-        localStorage.removeItem('spotifyAccessToken');
         setIsAuthenticated(false);  
-        document.cookie = "cookieName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-       // window.location.href = 'https://accounts.spotify.com/en/logout'
+
     };
 
     return (
         <Router>
             <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout}>
-                <Routes>
+                <Routes>3
                     <Route path="/" element={<LandingPage setIsAuthenticated={setIsAuthenticated} />} />
-                    <Route path="/home" element={<HomePage onAuthenticate={() => setIsAuthenticated(true)}/> } />
+                    <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
                     <Route path="/callback" element={<CallbackPage onAuthenticate={() => setIsAuthenticated(true)} />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/privacy" element={<Privacy />} />

@@ -6,6 +6,7 @@ import './Navbar.css';  // Style this file as needed
 function Navbar({ onLogout }) {
     const navigate = useNavigate();    
     const logoutClick = () => {
+        localStorage.removeItem('userEmail');
         onLogout();
         navigate('/');
     }                                

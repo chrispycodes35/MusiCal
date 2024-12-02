@@ -4,6 +4,18 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import './LandingPage.css';
 
+/*
+HOW THE FIREBASE DATABASE WORKS
+*************************************************************************************************************************
+
+1. run: npm install -g firebase-tools (installs firebase)
+2. firebase login (create a firebase account online and run this command in the terminal if you want to see the database) 
+               (you do not need to do this if you only are looking to read/write to the database)
+3. send me your email so that I can add you as a collaborator to the firebase project -> (20990527778)
+
+*************************************************************************************************************************
+*/
+
 const firebaseConfig = {
     apiKey: "AIzaSyBKjT-2ulnsONxd81VHe9Rh50I1kU4iq94",
     authDomain: "musical-4eabd.firebaseapp.com",
@@ -17,7 +29,7 @@ const firebaseConfig = {
 
 const db = getFirestore(initializeApp(firebaseConfig));
 
-function LandingPage(setIsAuthenticated) {
+function LandingPage({isAuthenticated, setIsAuthenticated}) {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,13 +48,13 @@ function LandingPage(setIsAuthenticated) {
         }
     }, []);
 
-    const handleLogin = () => { //first component activated on click
+    const handleInitialLogin = () => { //first component activated on click
         const clientId = 'ec1895b9fcb542cdab38b014c050f097';
-        const redirectUri = 'http://localhost:3000/home';
+        const redirectUri = 'http://localhost:3000/';
         const scope = [ //asks for user permission to access personal and listening info 
             'user-library-read',
             'playlist-read-private',
-            'user-read-recently-played',
+            'user-read-recently-played',    
             'user-top-read',
             'user-read-email',
         ].join(' ');
@@ -54,7 +66,6 @@ function LandingPage(setIsAuthenticated) {
     };
 
     const handleUserLogin = async (token) => { //general login 
-        try {
             const response = await fetch('https://api.spotify.com/v1/me', {
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -68,23 +79,14 @@ function LandingPage(setIsAuthenticated) {
             await storeInFirebase(data.email, token); // save token in firebase
             setIsAuthenticated(true); // set is authenticated to true
             navigate('/home'); // go back to homepage
-        } catch (error) {
-            console.error('Error logging in user:', error);
-            alert('Failed to log in. Please try again.');
-        }
+        
     };
 
     const storeInFirebase = async (email, token) => {
-        try {
-            await setDoc(doc(db, 'user tokens', email), { email, accessToken: token });
-            console.log('Token stored in Firebase for email:', email);
-        } catch (error) {
-            console.error('Error storing token in Firebase:', error);
-        }
+        await setDoc(doc(db, 'user tokens', email), { email, accessToken: token });
     };
 
     const checkFirebaseForToken = async (email) => {
-        try {
             const userDoc = doc(db, 'user tokens', email);
             const snapshot = await getDoc(userDoc);
 
@@ -92,16 +94,10 @@ function LandingPage(setIsAuthenticated) {
                 const data = snapshot.data();
                 if (data.accessToken) {
                     console.log('Token found in Firebase for email:', email);
+                    setIsAuthenticated(true);
                     navigate('/home'); // go back to homepage 
-                } else {
-                    console.error('Access token missing in Firebase document.');
                 }
-            } else {
-                console.error('No document found for the user in Firebase.');
-            }
-        } catch (error) {
-            console.error('Error checking Firebase for token:', error);
-        }
+            } 
     };
 
     return (
@@ -112,9 +108,9 @@ function LandingPage(setIsAuthenticated) {
                 <p className="description">
                     Login to explore your harmonic music recommendations based on a color recommendation system.
                 </p>
-                <button className="login-button" onClick={handleLogin}>
-                    Log In with Spotify
-                </button>
+                <button className="login-button" onClick={handleInitialLogin}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mr-2 !fill-black fill-[#1DB954]"><g><path fill-rule="nonzero" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.55 2 12 2zm3.75 14.65c-2.35-1.45-5.3-1.75-8.8-.95-.35.1-.65-.15-.75-.45-.1-.35.15-.65.45-.75 3.8-.85 7.1-.5 9.7 1.1.35.15.4.55.25.85-.2.3-.55.4-.85.2zm1-2.7c-2.7-1.65-6.8-2.15-9.95-1.15-.4.1-.85-.1-.95-.5-.1-.4.1-.85.5-.95 3.65-1.1 8.15-.55 11.25 1.35.3.15.45.65.2 1s-.7.5-1.05.25zM6.3 9.75c-.5.15-1-.15-1.15-.6-.15-.5.15-1 .6-1.15 3.55-1.05 9.4-.85 13.1 1.35.45.25.6.85.35 1.3-.25.35-.85.5-1.3.25C14.7 9 9.35 8.8 6.3 9.75z"></path></g></svg>
+                Log In with Spotify</button>
             </div>
         </div>
     );

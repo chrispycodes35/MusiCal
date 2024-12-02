@@ -4,6 +4,18 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import './LandingPage.css';
 
+/*
+HOW THE FIREBASE DATABASE WORKS
+*************************************************************************************************************************
+
+1. run: npm install -g firebase-tools (installs firebase)
+2. firebase login (create a firebase account online and run this command in the terminal if you want to see the database) 
+               (you do not need to do this if you only are looking to read/write to the database)
+3. send me your email so that I can add you as a collaborator to the firebase project -> (20990527778)
+
+*************************************************************************************************************************
+*/
+
 const firebaseConfig = {
     apiKey: "AIzaSyBKjT-2ulnsONxd81VHe9Rh50I1kU4iq94",
     authDomain: "musical-4eabd.firebaseapp.com",
@@ -14,7 +26,6 @@ const firebaseConfig = {
     appId: "1:566662839891:web:1d2443efb466ae270790a6",
     measurementId: "G-TD79LE01X9"
 };
-
 
 const db = getFirestore(initializeApp(firebaseConfig));
 

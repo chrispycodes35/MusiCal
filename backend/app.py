@@ -1,109 +1,81 @@
-import os
 from dotenv import load_dotenv
-from flask import Flask, jsonify, redirect, request, session, url_for
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth
-from spotipy.cache_handler import FlaskSessionCacheHandler
-import logging
+import requests
+from urllib.parse import quote
+
 load_dotenv()
-
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+CLIENT_ID='ec1895b9fcb542cdab38b014c050f097'
+CLIENT_SECRET='de0631d3f4f849e6815a77252324e360'
+user_email = None #defined when user's email is collected from frontend
+sp = None #defined when user's email is collected from frontend
+firebase_url = None #defined when user's email is collected from frontend
 
-app.config["SECRET_KEY"] = os.urandom(64)
-CLIENT_ID='af91c51284094efe9e831c521628aa0f'
-CLIENT_SECRET='c8d8a61fb40c423dbd6f81121a868238'
-redirect_uri = 'http://localhost:8000/callback'
-scope = 'user-library-read playlist-read-private user-read-recently-played user-top-read'
-cache_handler = FlaskSessionCacheHandler(session)
-
-sp_oauth = SpotifyOAuth(client_id=os.getenv("CLIENT_ID"), 
-                        client_secret=os.getenv("CLIENT_SECRET"),
-                        redirect_uri=redirect_uri,
-                        cache_handler=cache_handler,
-                        scope=scope,
-                        show_dialog=True)
-
-sp = spotipy.Spotify(auth_manager=sp_oauth)
-
-def not_authorized():
-    if not sp_oauth.validate_token(cache_handler.get_cached_token()):
-        auth_url = sp_oauth.get_authorize_url()
-        return redirect(auth_url)
-
-@app.route("/")
+@app.route('/')
 def home():
-    return '<h1>Welcome to the Spotify Login App</h1><a href="/login">Login with Spotify</a>'
+    return jsonify({"message": user_email})
 
-@app.route("/login")
-def login():
-    not_authorized()
-    return redirect(url_for('profile'))
+@app.route('/save-email', methods=['POST'])
+def save_email_and_make_sp():
+    #retrieve user email from frontend
+    global user_email, sp, firebase_url
+    data = request.get_json()
+    user_email = data.get('email') 
 
-@app.route('/callback')
-def callback():
-    sp_oauth.get_access_token(request.args.get('code'))
-    return redirect(url_for('profile'))
+    #retrieve user spotify access token
+    firebase_url = f"https://firestore.googleapis.com/v1/projects/musical-4eabd/databases/(default)/documents/user%20tokens"
+    response = requests.get(f"{firebase_url}/{user_email}")
+    firebase_data = response.json()
+    access_token = firebase_data.get("fields", {}).get("accessToken", {}).get("stringValue")
+    print("access_token: " + str(access_token)) #do not remove or code will break
+
+    #initialize sp client
+    sp = spotipy.Spotify(auth=access_token)  
+    print("spotify authenticator: " + str(sp)) #do not remove or code will break
+
+    return jsonify({"message": "saved email and created sp client"})
 
 
-@app.route('/profile')
-def profile():
-    not_authorized()
-    user_info = sp.current_user() 
-    playlists = sp.current_user_playlists()
-    playlist_info = [(pl['name'], pl['external_urls']['spotify']) for pl in playlists['items']]
-    playlists_display = "<br>".join([f'{name}: {url}' for name, url in playlist_info])
-    # Fetch user's top tracks
+@app.route('/listening_data')
+def listening_data():
+    #user's top tracks
     top_tracks = sp.current_user_top_tracks(limit = 10, time_range = 'medium_term')
     top_tracks_info = [(track['name'], track['artists'][0]['name']) for track in top_tracks['items']]
-    top_tracks_display = "<br>".join([f'{track} by {artist}' for track, artist in top_tracks_info])
-    # Fetch user's top artists
+
+    #user's top artists
     top_artists = sp.current_user_top_artists(limit = 10, time_range = 'medium_term')
     top_artists_info = [artist['name'] for artist in top_artists['items']]
-    top_artists_display = "<br>".join(top_artists_info)
 
-    # Fetch user's top genres
+    #user's top genres
     genre_frequency = {}
     top_20_artists = sp.current_user_top_artists(limit = 20, time_range = 'medium_term')
-    
     for artist in top_20_artists['items']:
         for genre in artist['genres']:
             if genre not in genre_frequency:
                 genre_frequency[genre] = 1
             genre_frequency[genre] += 1
-                
     top_genres = sorted(genre_frequency, key = lambda x : genre_frequency[x], reverse = True)[:5]
-    genre_display = "<br>".join(top_genres)
     
-    return (f"<h1>Hello, {user_info['display_name']}</h1><br>"
-            f"<h2>Your Playlists:</h2>{playlists_display}<br><br>"  
-            f"<h2>Your Top Tracks:</h2>{top_tracks_display}<br><br>"
-            f"<h2>Your Top Artists:</h2>{top_artists_display}<br><br>"
-            f"<h2>Your Top Genres:</h2>{genre_display}")
+    #user data formatted for firebase
+    user_data = {
+        "top_tracks": {"arrayValue": {"values": [{"mapValue": {"fields": {
+            "name": {"stringValue": track[0]},
+            "artist": {"stringValue": track[1]}
+        }}} for track in top_tracks_info]}},
+        "top_artists": {"arrayValue": {"values": [{"stringValue": artist} for artist in top_artists_info]}},
+        "top_genres": {"arrayValue": {"values": [{"stringValue": genre} for genre in top_genres]}},
+    }
 
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('home'))
+    document_url = f"https://firestore.googleapis.com/v1/projects/musical-4eabd/databases/(default)/documents/listening_data/{quote(user_email)}"
+    requests.patch(document_url, json={"fields": user_data}) #store user data in Firebase
+    return user_data #returns user data which is the Promise recieved by the fetch request in HomePage.js
 
-@app.route('/track/<track_id>', methods=['GET'])
-def get_track(track_id):
-    # Add logging to see if the route is hit
-    print(f"Received request for track: {track_id}")
-    features = get_track_features(track_id)
-    if features:
-        print("Track features found!")
-        return jsonify(features)
-    else:
-        print("No features found for this track.")
-        return jsonify({"error": "No features found"}), 404
-
-def get_track_features(track_id):
-    try:
-        features = sp.audio_features(track_id)
-        return features[0] if features else None
-    except Exception as e:
-        print(f"Error fetching track features: {e}")
-        return None
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204  # no content
 
 if __name__ == '__main__':
     app.run(debug=True)

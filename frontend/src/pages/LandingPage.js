@@ -28,7 +28,6 @@ const firebaseConfig = {
 };
 
 const db = getFirestore(initializeApp(firebaseConfig));
-
 function LandingPage({isAuthenticated, setIsAuthenticated}) {
     const navigate = useNavigate();
 
@@ -42,7 +41,7 @@ function LandingPage({isAuthenticated, setIsAuthenticated}) {
             handleUserLogin(token);
         } else { // if the email is in the local storage then retrieve the access token from the firebase
             const email = localStorage.getItem('userEmail');
-            if (email) { 
+            if (email) {
                 checkFirebaseForToken(email); // retrieve the access token from the firebase
             }
         }
@@ -71,16 +70,18 @@ function LandingPage({isAuthenticated, setIsAuthenticated}) {
             });
             const data = await response.json();
 
-            if (!data.email) {
-                throw new Error('Email missing in Spotify API response.');
-            }
-
             localStorage.setItem('userEmail', data.email); // put email in local storage
             await storeInFirebase(data.email, token); // save token in firebase
+
+            await fetch('http://127.0.0.1:5000/save-email', { // send email to backend
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: data.email }),
+            });
+            
             setIsAuthenticated(true); // set is authenticated to true
             navigate('/home'); // go back to homepage
-        
-    };
+    };  
 
     const storeInFirebase = async (email, token) => {
         await setDoc(doc(db, 'user tokens', email), { email, accessToken: token });
@@ -94,6 +95,12 @@ function LandingPage({isAuthenticated, setIsAuthenticated}) {
                 const data = snapshot.data();
                 if (data.accessToken) {
                     console.log('Token found in Firebase for email:', email);
+                    await fetch('http://127.0.0.1:5000/save-email', { // send email to backend
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: data.email }),
+                    });
+                    
                     setIsAuthenticated(true);
                     navigate('/home'); // go back to homepage 
                 }

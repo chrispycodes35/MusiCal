@@ -4,24 +4,12 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import './LandingPage.css';
 
-/*
-HOW THE FIREBASE DATABASE WORKS
-*************************************************************************************************************************
-
-1. run: npm install -g firebase-tools (installs firebase)
-2. firebase login (create a firebase account online and run this command in the terminal if you want to see the database) 
-               (you do not need to do this if you only are looking to read/write to the database)
-3. send me your email so that I can add you as a collaborator to the firebase project -> (20990527778)
-
-*************************************************************************************************************************
-*/
-
 const firebaseConfig = {
     apiKey: "AIzaSyBKjT-2ulnsONxd81VHe9Rh50I1kU4iq94",
     authDomain: "musical-4eabd.firebaseapp.com",
     databaseURL: "https://musical-4eabd-default-rtdb.firebaseio.com",
     projectId: "musical-4eabd",
-    storageBucket: "musical-4eabd.firebasestorage.app",
+    storageBucket: "musical-4eabd.firebaseapp.com",
     messagingSenderId: "566662839891",
     appId: "1:566662839891:web:1d2443efb466ae270790a6",
     measurementId: "G-TD79LE01X9"
@@ -29,75 +17,98 @@ const firebaseConfig = {
 
 const db = getFirestore(initializeApp(firebaseConfig));
 
-function LandingPage({isAuthenticated, setIsAuthenticated}) {
+function LandingPage({ setIsAuthenticated }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        //checks for token in url, retrieves it, and hides it
-        const hash = window.location.hash;
-        const token = new URLSearchParams(hash.substring(1)).get('access_token');
-        window.history.replaceState(null, null, window.location.pathname);
-
-        if (token) { // if the token is in the url 
-            handleUserLogin(token);
-        } else { // if the email is in the local storage then retrieve the access token from the firebase
-            const email = localStorage.getItem('userEmail');
-            if (email) { 
-                checkFirebaseForToken(email); // retrieve the access token from the firebase
+        const processTokenFromURL = async () => {
+            const hash = window.location.hash;
+            const token = new URLSearchParams(hash.substring(1)).get('access_token');
+            
+            if (token) {
+                window.history.replaceState(null, null, window.location.pathname); // Clear the token from the URL
+                await handleUserLogin(token);
+            } else {
+                const email = localStorage.getItem('userEmail');
+                if (email) {
+                    await checkFirebaseForToken(email);
+                }
             }
-        }
+        };
+
+        processTokenFromURL();
     }, []);
 
-    const handleInitialLogin = () => { //first component activated on click
-        const clientId = 'ec1895b9fcb542cdab38b014c050f097';
-        const redirectUri = 'http://localhost:3000/';
-        const scope = [ //asks for user permission to access personal and listening info 
+    const handleInitialLogin = () => {
+        const clientId = 'bf672d78468c4fa6b8389d815d211583';
+        const redirectUri = 'http://localhost:3000/callback';
+        const scope = [
             'user-library-read',
             'playlist-read-private',
-            'user-read-recently-played',    
+            'user-read-recently-played',
             'user-top-read',
             'user-read-email',
         ].join(' ');
 
-        const authUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(
-            redirectUri
-        )}&scope=${encodeURIComponent(scope)}`;
-        window.location.href = authUrl; //redirects back to landing page after done and useEffect() gets triggerecd
+        const authUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
+        window.location.href = authUrl;
     };
 
-    const handleUserLogin = async (token) => { //general login 
+    const handleUserLogin = async (token) => {
+        try {
             const response = await fetch('https://api.spotify.com/v1/me', {
                 headers: { Authorization: `Bearer ${token}` },
             });
+    
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`Spotify API Error: ${errorText}`);
+                throw new Error(`Spotify API Error: ${response.statusText}`);
+            }
+    
             const data = await response.json();
-
+    
             if (!data.email) {
                 throw new Error('Email missing in Spotify API response.');
             }
-
-            localStorage.setItem('userEmail', data.email); // put email in local storage
-            await storeInFirebase(data.email, token); // save token in firebase
-            setIsAuthenticated(true); // set is authenticated to true
-            navigate('/home'); // go back to homepage
-        
-    };
+    
+            await storeInFirebase(data.email, token);
+            localStorage.setItem('userEmail', data.email);
+            setIsAuthenticated(true);
+            navigate('/home');
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
+    };    
+    
 
     const storeInFirebase = async (email, token) => {
-        await setDoc(doc(db, 'user tokens', email), { email, accessToken: token });
+        try {
+            await setDoc(doc(db, 'user tokens', email), { email, accessToken: token });
+        } catch (error) {
+            console.error('Error storing token in Firebase:', error);
+        }
     };
 
     const checkFirebaseForToken = async (email) => {
+        try {
             const userDoc = doc(db, 'user tokens', email);
             const snapshot = await getDoc(userDoc);
 
             if (snapshot.exists()) {
                 const data = snapshot.data();
                 if (data.accessToken) {
-                    console.log('Token found in Firebase for email:', email);
                     setIsAuthenticated(true);
-                    navigate('/home'); // go back to homepage 
+                    navigate('/home'); // Redirect after setting state
+                } else {
+                    console.warn('No valid token found for email:', email);
+                    localStorage.removeItem('userEmail'); // Clear invalid data
+                    setIsAuthenticated(false);
                 }
-            } 
+            }
+        } catch (error) {
+            console.error('Error checking Firebase for token:', error);
+        }
     };
 
     return (

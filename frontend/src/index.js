@@ -1,16 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';  // Import global styles
+import { createRoot } from 'react-dom/client';
+import './index.css'; // Import global styles
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// Render the App component inside the root div
-ReactDOM.render(
+// Create root using React 18's createRoot API
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
-// Optional: report app performance metrics (optional feature from create-react-app)
+// Optional: report app performance metrics
 reportWebVitals();

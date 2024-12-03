@@ -1,11 +1,88 @@
-/* App.css is usually for styles related to the App component and its direct children. 
-If a component's styles become complex, you may want to create separate CSS files for 
-that specific component or page (as you are doing with components/ and pages/ folders). */
-.App {
-  text-align: center;
-  padding: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: #f5f5f5;
-  }
-  
+/* App.css */
+
+/* Reset and basic styling */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  font-family: "Instrument Sans", Arial, sans-serif; /* Consistent font */
+  box-sizing: border-box;
+}
+
+:root {
+  --main-bg-color: #000; /* Black background */
+  --main-text-color: #fff; /* White text */
+  --hover-brightness: 1.2;
+  --link-spacing: 20px;
+}
+
+/* App container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the entire viewport height is used */
+}
+
+.main-content {
+  flex: 1; /* Push the footer down */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer styles */
+.footer {
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  height: 64px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.footer a, .footer button {
+  color: var(--main-text-color);
+  text-decoration: none;
+  font-size: 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: filter 0.3s ease-in-out;
+}
+
+.footer a:hover, .footer button:hover {
+  text-decoration: underline;
+  filter: brightness(var(--hover-brightness));
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+}
+
+.navbar-title {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.navbar-links {
+  display: flex;
+  gap: var(--link-spacing);
+}
+
+.navbar-links a {
+  color: var(--main-text-color);
+  text-decoration: none;
+}
+
+.navbar-links a:hover {
+  text-decoration: underline;
+  filter: brightness(var(--hover-brightness));
+}

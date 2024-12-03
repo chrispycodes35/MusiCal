@@ -1,72 +1,83 @@
-.about-page {
-    height: auto;
-    margin: 0;
-    background: linear-gradient(120deg,#774ea1,#e76e91, #f3a183 );
-    animation: gradientAnimation 10s ease infinite;
-    color: white;
-    font-family: "Instrument Sans";
+/* Privacy.css */
+
+.privacy-page {
     display: flex;
     flex-direction: column;
-    z-index: 0;
-
+    min-height: 100vh; /* Full height to push the footer down */
+    background: #f5f5f5;
+    color: #333;
+    font-family: "Instrument Sans", Arial, sans-serif; /* Consistent font */
+    padding: 5vh 10vw;
+    box-sizing: border-box;
 }
 
-@keyframes gradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Header Section */
+.privacy-header {
+    text-align: center;
+    margin-bottom: 5vh;
 }
 
-.hero {
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-
+.privacy-header h1 {
+    font-size: 3rem; /* Large heading */
+    font-weight: bold; /* Emphasized text */
+    margin-bottom: 1rem;
 }
 
+.privacy-header p {
+    font-size: 1.25rem; /* Paragraph font size */
+    line-height: 1.8;
+    max-width: 800px; /* Restrict width for readability */
+}
 
-.main-body {
-    max-width: 80vh;
+/* Content Section */
+.privacy-content {
+    flex: 1; /* Allow the content to grow and push the footer */
     display: flex;
-    flex-direction: column;
-    padding: 3vh;
-    padding-left: 6.5vh;
+    flex-direction: column; /* Stack items vertically */
+    gap: 5vh; /* Add vertical spacing between items */
+    width: 100%;
+    max-width: 800px; /* Restrict maximum width for large screens */
+    margin-bottom: 5vh; /* Ensure spacing between content and footer */
 }
 
-.main-body h1 {
-    font-size: 12vh;
-    margin-top: 8vh;
+.privacy-item {
+    text-align: left;
 }
 
-p {
-    font-size: 2.5vh;
+.privacy-item h2 {
+    font-size: 2rem; /* Subheading size */
+    margin-bottom: 1rem; /* Space below the heading */
+    font-weight: bold; /* Emphasized headings */
 }
 
-.record-img-container{
-  position:relative;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
+.privacy-item p {
+    font-size: 1.25rem; /* Paragraph font size */
+    line-height: 1.6; /* Comfortable line spacing */
 }
 
-.record-img-container img {
-
-    right: 0;
-    position: absolute;
-
-
-}
-.mission, .vision {
+/* Footer styles: Ensure it remains at the bottom */
+.footer {
+    background-color: #000; /* Black background for footer */
+    color: #fff; /* White text */
+    height: 64px;
     display: flex;
-    flex-direction: column;
-
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    position: relative; /* Ensure it stays within the layout */
 }
 
-.mission-vision-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 60px;
-    max-width: 80vh;
+/* Responsive Design */
+@media (max-width: 768px) {
+    .privacy-header h1 {
+        font-size: 2.5rem; /* Reduce heading size on smaller screens */
+    }
 
-    padding-left: 6.5vh;
+    .privacy-header p, .privacy-item p {
+        font-size: 1rem; /* Smaller font for compact screens */
+    }
+
+    .privacy-content {
+        gap: 3vh; /* Reduce spacing on smaller screens */
+    }
 }

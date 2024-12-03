@@ -1,9 +1,8 @@
-/* footer.css */
 .footer {
     height: 64px;
     width: 100%;
-    background-color: white;
-    color: #000000;
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
     position: absolute;
     z-index: 1;
     bottom: 0;
@@ -13,24 +12,22 @@
     align-items: center;
     padding: 16px 128px;
 }
-.footer button {
-    background: transparent;
-    border: none;
-    color: black;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    font-weight: 500;
+
+.footer a, .footer button {
+    color: #fff; /* Ensure links and buttons have white text */
+    text-decoration: none; /* Remove underline for links */
     font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
     padding: 10px 15px;
+    border: none;
+    background: transparent; /* Transparent background for button */
+    border-radius: 8px;
     transition: filter 0.3s ease-in-out;
 }
 
-.footer button:hover { /* Darker color on hover */
-    filter: brightness(0.9);
-    text-decoration: underline;
+.footer a:hover, .footer button:hover {
+    filter: brightness(1.2); /* Lighter effect on hover */
+    text-decoration: underline; /* Underline on hover for both links and buttons */
     text-underline-offset: 8px;
 }

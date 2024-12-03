@@ -1,13 +1,13 @@
-// Navbar.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getFirestore, doc, deleteDoc } from 'firebase/firestore';
-import './Navbar.css';  // Style this file as needed
+import './Navbar.css';
 
 const db = getFirestore();
 
 function Navbar({ onLogout }) {
-    const navigate = useNavigate();                                                            
+    const navigate = useNavigate();
+
     const handleLogout = async () => {
         const email = localStorage.getItem('userEmail');
         if (email) {
@@ -16,17 +16,17 @@ function Navbar({ onLogout }) {
         localStorage.removeItem('userEmail');
         onLogout();
         navigate('/');
-    }
+    };
 
     return (
-        <header className="navbar">
-            <div className="navbar-content">
-                <h1 className="navbar-title" onClick={() => navigate('/home')}>MusiCal</h1>
-                <nav className="navbar-links">
-                    <a href="#" onClick={handleLogout}>Logout</a>
-                </nav>
+        <div className="navbar">
+            <h1 className="navbar-title" onClick={() => navigate('/home')}>MusiCal</h1>
+            <div className="navbar-links">
+                <a onClick={() => navigate('/about')}>About</a>
+                <a onClick={() => navigate('/privacy')}>Privacy</a>
+                <a onClick={handleLogout}>Logout</a>
             </div>
-        </header>
+        </div>
     );
 }
 

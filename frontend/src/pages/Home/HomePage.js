@@ -13,11 +13,6 @@ function HomePage() {
                     Discover music based on colors and explore the relationship between sound and color.
                 </p>
             </div>
-            <footer className="footer">
-                 <a href="/about">About</a>
-            <a href="/privacy">Privacy</a>
-            <a href="/logout">Logout</a>
-            </footer>
         </div>
   );
 }

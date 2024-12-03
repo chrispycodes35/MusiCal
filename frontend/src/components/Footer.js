@@ -1,18 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './footer.css';
+import './Footer.css';
 
-function Footer({ isAuthenticated }) { // Accept isAuthenticated as a prop
+function Footer({ isAuthenticated }) {
     const navigate = useNavigate();
 
     const handleHomeClick = () => {
-        
-        if (localStorage.getItem('userEmail')) {
-            navigate('/home');
-        }
-        else{
-            navigate('/');
-        }
+        navigate(isAuthenticated ? '/home' : '/'); // Navigate to home or landing based on login status
     };
 
     return (

@@ -1,5 +1,3 @@
-/* Navbar.css */
-
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -13,10 +11,15 @@
   font-size: 1.5rem;
   cursor: pointer;
   color: #fff;
+  margin-right: auto; /* Push links to the right */
+}
+
+.navbar-links {
+  display: flex; /* Lay out links horizontally */
+  gap: 20px; /* Space between links */
 }
 
 .navbar-links a {
-  margin-left: 15px;
   color: #fff;
   text-decoration: none;
   font-size: 1rem;

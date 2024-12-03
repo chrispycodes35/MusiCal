@@ -1,72 +1,117 @@
+/* About.css */
+
 .about-page {
-    height: auto;
-    margin: 0;
-    background: linear-gradient(120deg,#774ea1,#e76e91, #f3a183 );
-    animation: gradientAnimation 10s ease infinite;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Full height to accommodate footer */
+    background: linear-gradient(120deg, #774ea1, #e76e91, #f3a183);
     color: white;
-    font-family: "Instrument Sans";
+    font-family: "Instrument Sans", Arial, sans-serif; /* Consistent font */
+    padding: 5vh 10vw;
+    box-sizing: border-box;
+    padding-bottom: 64px; /* Ensure footer does not overlap */
+}
+
+/* Hero Section */
+.about-hero {
     display: flex;
-    flex-direction: column;
-    z-index: 0;
-
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem; /* Add spacing between text and image */
+    margin-bottom: 5vh; /* Space below the hero section */
 }
 
-@keyframes gradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.about-text {
+    flex: 1;
+    max-width: 50%;
+    text-align: left; /* Left-align text for consistency */
 }
 
-.hero {
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-
+.about-text h1 {
+    font-size: 3rem; /* Match the heading size from privacy page */
+    font-weight: bold; /* Bold heading */
+    margin-bottom: 1rem; /* Space below the heading */
+    line-height: 1.2;
 }
 
+.about-text p {
+    font-size: 1.25rem; /* Match paragraph size from privacy page */
+    line-height: 1.8; /* Comfortable line spacing */
+    color: white; /* Ensure text contrast */
+}
 
-.main-body {
-    max-width: 80vh;
+/* Image Section */
+.about-image {
+    flex: 1;
     display: flex;
-    flex-direction: column;
-    padding: 3vh;
-    padding-left: 6.5vh;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden; /* Ensure image doesn't break layout */
 }
 
-.main-body h1 {
-    font-size: 12vh;
-    margin-top: 8vh;
+.about-image img {
+    width: 200%; /* Enlarge image to show only part */
+    height: auto;
+    object-fit: cover; /* Maintain aspect ratio */
+    position: relative;
+    right: -50%; /* Shift to show left part of the image */
 }
 
-p {
-    font-size: 2.5vh;
-}
-
-.record-img-container{
-  position:relative;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-.record-img-container img {
-
-    right: 0;
-    position: absolute;
-
-
-}
-.mission, .vision {
+/* Mission, Vision, and Values Section */
+.about-mission-vision {
     display: flex;
-    flex-direction: column;
-
+    flex-direction: column; /* Stack items vertically */
+    gap: 5vh; /* Vertical spacing between items */
+    margin-top: 5vh; /* Space between hero and mission-vision section */
+    max-width: 800px; /* Limit width for readability */
+    margin-left: auto; /* Center-align the section */
+    margin-right: auto;
 }
 
-.mission-vision-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 60px;
-    max-width: 80vh;
+.about-item {
+    text-align: left; /* Align items to the left */
+}
 
-    padding-left: 6.5vh;
+.about-item h2 {
+    font-size: 2rem; /* Subheading size */
+    font-weight: bold; /* Emphasized headings */
+    margin-bottom: 1rem;
+}
+
+.about-item p {
+    font-size: 1.25rem; /* Paragraph font size */
+    line-height: 1.6; /* Comfortable line spacing */
+}
+
+/* Footer styles: Ensure it remains at the bottom */
+.footer {
+    background-color: #000; /* Black footer background */
+    color: #fff; /* White text */
+    height: 64px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    position: relative; /* Stays within the layout */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about-text h1 {
+        font-size: 2.5rem; /* Reduce heading size on smaller screens */
+    }
+
+    .about-text p, .about-item p {
+        font-size: 1rem; /* Adjust paragraph size for compact screens */
+    }
+
+    .about-hero {
+        gap: 3vh; /* Reduce spacing between text and image */
+    }
+
+    .about-mission-vision {
+        gap: 3vh; /* Reduce vertical spacing */
+        padding: 3vh; /* Add padding for smaller screens */
+    }
 }

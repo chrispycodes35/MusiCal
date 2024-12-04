@@ -53,7 +53,7 @@ function App() {
                 </div>
 
                 {/* Footer */}
-                {!isAuthenticated && <Footer isAuthenticated={isAuthenticated} />}
+                {!localStorage.getItem('userEmail') && <Footer isAuthenticated={isAuthenticated} />}
             </div>
         </Router>
     );

@@ -58,7 +58,7 @@ function HomePage() {
     return (
         <div className="home">
             <div className="content">
-                <h1 className="title">MusiCal</h1>
+                <h1 className="title">Time To Explore</h1>
                 <p className="description">
                     Receive Harmonically Compatible Song Recommendations and Explore Your Music Taste
                 </p>

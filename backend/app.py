@@ -4,6 +4,7 @@ from flask_cors import CORS
 import spotipy
 import requests
 from urllib.parse import quote
+from recommendation_model import generate_user_recommendations
 
 load_dotenv()
 app = Flask(__name__)
@@ -93,6 +94,14 @@ def listening_data():
     except spotipy.SpotifyException as e:
         return jsonify({"error": f"Spotify API error: {str(e)}"}), 500
 
+@app.route('/model_recommendations', methods=['POST'])
+def model_recommendations():
+    try:
+        user_id = request.json.get('user_id')
+        recommendations = generate_user_recommendations(user_id)
+        return jsonify({"recommendations": recommendations})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/favicon.ico')
 def favicon():

@@ -64,28 +64,57 @@ function LandingPage({isAuthenticated, setIsAuthenticated}) {
         window.location.href = authUrl; //redirects back to landing page after done and useEffect() gets triggerecd
     };
 
-    const handleUserLogin = async (token) => { //general login 
+    const handleUserLogin = async (token) => {
+        try {
             const response = await fetch('https://api.spotify.com/v1/me', {
                 headers: { Authorization: `Bearer ${token}` },
             });
+    
+            if (!response.ok) {
+                console.error('Spotify API error:', response.statusText);
+                return;
+            }
+    
             const data = await response.json();
+            console.log('Spotify user data:', data); // Add this log
+            localStorage.setItem('userEmail', data.email); // Save email in local storage
+            storeInFirebase(data.email, token);
 
-            localStorage.setItem('userEmail', data.email); // put email in local storage
-            await storeInFirebase(data.email, token); // save token in firebase
-
-            await fetch('http://127.0.0.1:5000/save-email', { // send email to backend
+    
+            // Send email to backend
+            const saveEmailResponse = await fetch('http://127.0.0.1:5000/save-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: data.email }),
             });
-            
-            setIsAuthenticated(true); // set is authenticated to true
-            navigate('/home'); // go back to homepage
-    };  
+    
+            const saveEmailData = await saveEmailResponse.json();
+            console.log('Save email response:', saveEmailData);
+    
+            if (saveEmailResponse.ok) {
+                navigate('/home'); // Redirect to home
+            } else {
+                console.error('Failed to save email:', saveEmailData.error);
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
+    };
+    
+    
 
     const storeInFirebase = async (email, token) => {
-        await setDoc(doc(db, 'user tokens', email), { email, accessToken: token });
+        try {
+            await setDoc(doc(db, 'user tokens', email), {
+                email: email,
+                accessToken: token, // Ensure the key matches what the backend expects
+            });
+            console.log(`Stored access token for ${email}`);
+        } catch (error) {
+            console.error('Error storing token in Firebase:', error);
+        }
     };
+    
 
     const checkFirebaseForToken = async (email) => {
             const userDoc = doc(db, 'user tokens', email);

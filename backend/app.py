@@ -5,6 +5,18 @@ import spotipy
 import requests
 from urllib.parse import quote
 
+"""
+HOW TO SEND USER DATA TO FIREBASE DATABASE
+*************************************************************************************************************************
+
+1. run: npm install to install all libraries
+2. create a 2nd backend terminal and write python3 app.py to start up the Flask server 
+3. this way the Flask server can catch the requests and calls from the frontend to retrieve and store user data
+
+*************************************************************************************************************************
+"""
+
+
 load_dotenv()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)

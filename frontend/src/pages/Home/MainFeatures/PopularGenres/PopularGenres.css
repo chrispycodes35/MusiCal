@@ -1,18 +1,9 @@
 .popular-genres {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping to a new line */
-    justify-content: center; /* Center items horizontally */
-    gap: 15px; /* Space between genre boxes */
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 15px; 
     margin: 20px 0;
-}
-
-.popular-genres-title {
-    font-size: 24px;
-    font-style: italic;
-    font-weight: bold;
-    color: black;
-    margin-bottom: 15px;
-    text-align: center;
 }
 
 .genre-box {
@@ -21,7 +12,7 @@
     border-radius: 8px;
     font-size: 16px;
     font-weight: bold;
-    color: white;
+    color: #FFFFFF; /* Ensure high text contrast */
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -36,12 +27,12 @@
 /* Media query for smaller screens */
 @media (max-width: 600px) {
     .popular-genres {
-        flex-direction: column; /* Stack genre boxes vertically */
-        align-items: center; /* Center items */
+        flex-direction: column; 
+        align-items: center; 
     }
 
     .genre-box {
-        width: 100%; /* Full width of parent container */
-        max-width: 300px; /* Optional: limit width */
+        width: 100%;
+        max-width: 300px; 
     }
 }

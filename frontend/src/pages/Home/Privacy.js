@@ -33,6 +33,11 @@ function Privacy() {
             content:
                 'Yes, you can contact us or navigate to the settings page to delete your stored data, including preferences and tokens, at any time.',
         },
+        {
+            title: 'How is my data protected?',
+            content:
+                'We use industry-standard encryption to protect your data during transmission and while stored on our servers. Regular audits ensure compliance with data protection regulations.',
+        },
     ];
 
     return (

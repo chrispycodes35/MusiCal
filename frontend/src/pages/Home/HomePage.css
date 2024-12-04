@@ -1,5 +1,4 @@
-/* HomePage.css */
-
+/* General Styles */
 .home {
   margin: 0;
   padding: 0;
@@ -9,69 +8,151 @@
   justify-content: space-between;
   align-items: center;
   min-height: 100vh;
-  background:#ffffff; /* Light gradient background */
-  color: #333; /* Darker text for readability on light background */
-  font-family: "Instrument Sans";
+  font-family: "Instrument Sans", sans-serif;
   text-align: center;
 }
 
-.home .content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+/* Section Styles */
+.section {
+  width: 100%;
+  padding: 40px 20px;
+  color: #ffffff; /* High contrast text color */
 }
 
-.home h1 {
+.introduction-section {
+  background-color: #274060; /* Purple */
+}
+
+.genres-section {
+  background-color: #335C81; /* Red/Orange */
+}
+
+.breakdown-section {
+  background-color: #335d81c2; /* Blue */
+}
+
+.recommendations-section {
+  background-color: #335d81a0; /* Pink */
+}
+
+/* Top 10 Songs Section */
+/* Top 10 Songs Section */
+.songs-section {
+  background-color: #ffffff; /* White background for consistency */
+  color: #333; /* Dark text for readability */
+  padding: 40px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 8px; /* Rounded corners for alignment */
+}
+
+.songs-section h2 {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #000000; /* Maintained original color for the heading */
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.songs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+  gap: 20px;
+  justify-items: center;
+}
+
+.song-card {
+  text-align: center;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.song-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.song-image {
+  width: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+  height: 150px;
   margin-bottom: 10px;
 }
 
-.home p {
+.song-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.song-artist {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.loading {
+  font-size: 1.5rem;
+  color: #666;
+  text-align: center;
+  margin: 20px;
+}
+
+
+/* Header Styles */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.profile-picture {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff; /* White border for contrast */
+}
+
+/* Headings */
+h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+h2 {
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+/* Paragraph Styles */
+p {
   margin: 10px 0 20px;
   font-size: 1.2rem;
-  color: rgb(0, 0, 0); /* Soft gray color for paragraph text */
+  color: #f0f0f0; /* Soft gray for secondary text */
   max-width: 600px;
 }
 
-.home .explore-button {
-  background-color: #61dafb; /* Button color matching the heading */
-  color: #ffffff;
-  padding: 12px 24px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.home .explore-button:hover {
-  background-color: #4a9cb8; /* Slightly darker shade on hover */
-}
-
-
-
-/* Responsive design adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
-  .home h1 {
+  h1 {
     font-size: 2rem;
   }
 
-  .home p {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p {
     font-size: 1rem;
-    padding: 0 20px;
   }
 
-  .home .explore-button {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-  }
-
-  .home .footer a {
-    margin: 0 10px;
+  .profile-picture {
+    width: 60px;
+    height: 60px;
   }
 }

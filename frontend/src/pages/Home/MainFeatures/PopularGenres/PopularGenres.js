@@ -2,7 +2,8 @@ import React from 'react';
 import './PopularGenres.css';
 
 function PopularGenres({ genres }) {
-    const colors = ['#8B0000', '#004953', '#2F4F4F', '#4B0082', '#483D8B'];
+    // Updated colors with Berkeley-inspired palette
+    const colors = ['#010133', '#002F6C', '#89CFF0', '#B0B0B0', '#FFD700'];
     const limitedGenres = genres.slice(0, 5);
 
     const redirectToSpotify = (genre) => {
@@ -12,7 +13,6 @@ function PopularGenres({ genres }) {
 
     return (
         <div className="popular-genres-container">
-            <h2 className="popular-genres-title">Your Top 5 Genres</h2>
             <div className="popular-genres">
                 {limitedGenres.map((genre, index) => (
                     <div

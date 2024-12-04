@@ -1,0 +1,63 @@
+.recommendations {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recommendations h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.recommendations ul {
+    list-style: none;
+    padding: 0;
+}
+
+.recommendation-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.recommendation-item:last-child {
+    border-bottom: none;
+}
+
+.recommendation-item a {
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.recommendation-item a:hover {
+    text-decoration: underline;
+}
+
+.recommendation-item audio {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.regenerate-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.regenerate-button:hover {
+    background-color: #0056b3;
+}

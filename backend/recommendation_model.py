@@ -3,6 +3,12 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.optimizers import Adam
+import numpy as np
+
 
 # Initialize Spotify API
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
@@ -68,8 +74,8 @@ def generate_user_recommendations(user_id):
     """
     Main function to generate recommendations for a user.
     """
-    user_tracks = fetch_user_top_tracks(user_id)
-    similarity_matrix, data = train_recommendation_model(user_tracks)
+    user_tracks = fetch_user_top_tracks(user_id) # top user tracks
+    similarity_matrix, data = train_recommendation_model(user_tracks) # training
 
     # Use the first track as a seed
     seed_track_id = user_tracks.iloc[0]["id"]

@@ -1,0 +1,65 @@
+.top10songs-container {
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff; /* Matches the white section background */
+    border-radius: 8px; /* Rounded corners for consistency */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    max-width: 1200px; /* Constrain width for large screens */
+}
+
+.top10songs-container h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.songs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    justify-items: center;
+}
+
+.song-card {
+    text-align: center;
+    background: #ffffff; /* White background for card */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.song-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.song-image {
+    width: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+.song-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.song-artist {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.loading {
+    font-size: 1.5rem;
+    color: #666;
+    text-align: center;
+    margin: 20px;
+}

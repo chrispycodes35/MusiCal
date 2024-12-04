@@ -1,17 +1,32 @@
-blinker==1.8.2
-click==8.1.7
+# Flask and Web Framework
 Flask==3.0.3
+Flask-Cors==5.0.0
+Werkzeug==3.0.4
+python-dotenv==1.0.1
+
+# SQL Database and ORM
 Flask-SQLAlchemy==3.1.1
-greenlet==3.1.1
+SQLAlchemy==2.0.35
+# psycopg2-binary==2.9.9 (Uncomment if using PostgreSQL)
+
+# Spotify API
+spotipy==2.24.0
+requests==2.31.0
+
+# Machine Learning and Data Handling
+tensorflow==2.14.0
+numpy==1.26.0
+scikit-learn==1.3.0
+scipy>=1.10.0
+pandas==2.1.2
+
+# Miscellaneous and Utilities
 importlib_metadata==8.5.0
 itsdangerous==2.2.0
 Jinja2==3.1.4
 MarkupSafe==3.0.1
-spotipy==2.24.0
-# psycopg2-binary==2.9.9
-SQLAlchemy==2.0.35
+blinker==1.8.2
+click==8.1.7
 typing_extensions==4.12.2
-Werkzeug==3.0.4
 zipp==3.20.2
-python-dotenv==1.0.1
-Flask-Cors==5.0.0
+greenlet==3.1.1

@@ -1,11 +1,11 @@
-/* Privacy.css */
-
 .privacy-page {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Full height to push the footer down */
-    background: #f5f5f5;
-    color: #333;
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+    min-height: 100vh; /* Full height to center the content */
+    background: #000000; /* Light gray for better contrast with text */
+    color: #000; /* Set default text color to black */
     font-family: "Instrument Sans", Arial, sans-serif; /* Consistent font */
     padding: 5vh 10vw;
     box-sizing: border-box;
@@ -15,56 +15,65 @@
 .privacy-header {
     text-align: center;
     margin-bottom: 5vh;
+    color: #ffffff; /* Ensure header text is black */
 }
 
 .privacy-header h1 {
     font-size: 3rem; /* Large heading */
     font-weight: bold; /* Emphasized text */
     margin-bottom: 1rem;
+    color: #ffffff; /* Explicitly set black text color */
 }
 
 .privacy-header p {
     font-size: 1.25rem; /* Paragraph font size */
     line-height: 1.8;
     max-width: 800px; /* Restrict width for readability */
+    color: #ffffff; /* Explicitly set black text color */
+    margin: 0 auto; /* Center paragraph */
 }
 
 /* Content Section */
 .privacy-content {
-    flex: 1; /* Allow the content to grow and push the footer */
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    gap: 5vh; /* Add vertical spacing between items */
+    flex-direction: column;
+    gap: 4vh; /* Add vertical spacing between items */
     width: 100%;
     max-width: 800px; /* Restrict maximum width for large screens */
-    margin-bottom: 5vh; /* Ensure spacing between content and footer */
+    text-align: center; /* Center-align items */
+    margin: 0 auto; /* Center horizontally */
 }
 
 .privacy-item {
-    text-align: left;
+    text-align: center; /* Center-align content */
+    color: #ffffff; /* Ensure item text is black */
+    padding: 1.5rem;
+    border: 1px solid #ddd; /* Add subtle border for separation */
+    border-radius: 8px; /* Rounded corners */
+    background: #000000; /* Light gray for better contrast */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Add hover effects */
+    max-width: 100%; /* Ensure it doesn't exceed the container width */
+}
+
+.privacy-item:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+    transform: translateY(-5px); /* Slight lift on hover */
 }
 
 .privacy-item h2 {
     font-size: 2rem; /* Subheading size */
     margin-bottom: 1rem; /* Space below the heading */
     font-weight: bold; /* Emphasized headings */
+    color: #ffffff; /* Explicitly set black text color */
 }
 
 .privacy-item p {
     font-size: 1.25rem; /* Paragraph font size */
-    line-height: 1.6; /* Comfortable line spacing */
-}
-
-/* Footer styles: Ensure it remains at the bottom */
-.footer {
-    background-color: #000; /* Black background for footer */
-    color: #fff; /* White text */
-    height: 64px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%;
-    position: relative; /* Ensure it stays within the layout */
+    line-height: 1.8; /* Comfortable line spacing */
+    color: #ffffff; /* Explicitly set black text color */
+    max-width: 100%; /* Ensure text doesn't overflow */
+    margin: 0 auto; /* Center text within the container */
 }
 
 /* Responsive Design */
@@ -78,6 +87,6 @@
     }
 
     .privacy-content {
-        gap: 3vh; /* Reduce spacing on smaller screens */
+        gap: 2vh; /* Reduce spacing on smaller screens */
     }
 }

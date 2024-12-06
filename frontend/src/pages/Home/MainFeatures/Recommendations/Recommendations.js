@@ -9,61 +9,67 @@ function Recommendations() {
     const fetchRecommendations = async () => {
         setLoading(true);
         setError(null);
-
+    
         try {
             const response = await fetch('http://127.0.0.1:5000/model_recommendations', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({}),
             });
-
+    
+            if (response.status === 401) {
+                // Handle token expiration
+                setError("Session expired. Please log in again.");
+                return;
+            }
+    
             if (!response.ok) {
                 const errorMessage = await response.json();
                 throw new Error(errorMessage.error || 'Failed to fetch recommendations');
             }
-
+    
             const data = await response.json();
             setRecommendations(data.recommendations);
         } catch (err) {
-            console.error(err.message);
-            setError(err.message);
+            console.error("Error fetching recommendations:", err.message);
+            setError(`Error: ${err.message}`);
         } finally {
             setLoading(false);
         }
     };
+    
 
     useEffect(() => {
         fetchRecommendations();
     }, []);
 
+    if (loading) return <div className="loading">Loading recommendations...</div>;
+    if (error) return <div className="error">{error}</div>;
+
     return (
-        <div className="recommendations">
-            {loading ? (
-                <p>Loading...</p>
-            ) : error ? (
-                <p className="error">{error}</p>
-            ) : (
-                <>
-                    <ul>
-                        {recommendations.map((rec, index) => (
-                            <li key={index} className="recommendation-item">
-                                <a href={rec.external_url} target="_blank" rel="noopener noreferrer">
-                                    {rec.name} by {rec.artist}
-                                </a>
-                                {rec.preview_url && (
-                                    <audio controls>
-                                        <source src={rec.preview_url} type="audio/mpeg" />
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                    <button className="regenerate-button" onClick={fetchRecommendations}>
-                        Regenerate Recommendations
-                    </button>
-                </>
-            )}
+        <div className="recommendations-container">
+            <h2>Recommended Tracks</h2>
+            <div className="recommendations-grid">
+                {recommendations.map((track, index) => (
+                    <div
+                        key={index}
+                        className="recommendation-card"
+                        onClick={() => window.open(track.external_url, '_blank')}
+                    >
+                        <img
+                            src={track.image || 'https://via.placeholder.com/150'}
+                            alt={track.name}
+                            className="recommendation-image"
+                        />
+                        <div className="recommendation-info">
+                            <p className="recommendation-title">{track.name}</p>
+                            <p className="recommendation-artist">{track.artist}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <button className="regenerate-button" onClick={fetchRecommendations}>
+                Regenerate Recommendations
+            </button>
         </div>
     );
 }

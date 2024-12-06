@@ -1,63 +1,56 @@
-.recommendations {
-    margin-top: 30px;
+.recommendations-container {
+    margin-top: 40px;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.recommendations h2 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 15px;
     text-align: center;
 }
 
-.recommendations ul {
-    list-style: none;
-    padding: 0;
+.recommendations-container h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-.recommendation-item {
-    margin-bottom: 15px;
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 20px;
+}
+
+.recommendation-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.recommendation-item:last-child {
-    border-bottom: none;
-}
-
-.recommendation-item a {
-    font-size: 1.2rem;
-    color: #007bff;
-    text-decoration: none;
-}
-
-.recommendation-item a:hover {
-    text-decoration: underline;
-}
-
-.recommendation-item audio {
-    margin-top: 10px;
-    width: 100%;
-    max-width: 300px;
-}
-
-.regenerate-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.regenerate-button:hover {
-    background-color: #0056b3;
+.recommendation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.recommendation-image {
+    width: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+.recommendation-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.recommendation-artist {
+    font-size: 0.9rem;
+    color: #666;
 }

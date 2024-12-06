@@ -50,9 +50,7 @@ def save_email_and_make_sp():
     if not access_token:
         return jsonify({"error": "No Spotify access token found for the user"}), 400
 
-    print(f"Retrieved access_token for {user_email}: {access_token}")
-
-    # Initialize Spotify client
+    # Initialize Spotify client with token
     try:
         sp = spotipy.Spotify(auth=access_token)
         print("Spotify client initialized successfully")
@@ -61,7 +59,6 @@ def save_email_and_make_sp():
         return jsonify({"error": "Failed to initialize Spotify client"}), 500
 
     return jsonify({"message": "Spotify client initialized successfully"})
-
 
 
 @app.route('/listening_data')
@@ -118,6 +115,25 @@ def listening_data():
     except spotipy.SpotifyException as e:
         return jsonify({"error": f"Spotify API error: {str(e)}"}), 500
 
+@app.route('/check_genre_seeds', methods=['GET'])
+def check_genre_seeds():
+    global sp
+    if not sp:
+        return jsonify({"error": "Spotify client is not initialized."}), 400
+
+    try:
+        # Make the request to Spotify for genre seeds
+        genre_seeds = sp.recommendation_genre_seeds()
+        print(f"Fetched Genre Seeds: {genre_seeds}")  # Log for debugging
+        return jsonify({"genres": genre_seeds.get("genres", [])})  # Return the list of genres
+    except spotipy.SpotifyException as e:
+        print(f"Error fetching genre seeds: {e}")
+        return jsonify({"error": f"Failed to fetch genre seeds: {e}"}), 500
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return jsonify({"error": f"Unexpected error: {e}"}), 500
+
+import random
 
 @app.route('/model_recommendations', methods=['POST'])
 def model_recommendations():
@@ -130,39 +146,73 @@ def model_recommendations():
         top_tracks = sp.current_user_top_tracks(limit=20)
         track_ids = [track["id"] for track in top_tracks["items"]]
 
-        if not track_ids:
-            print("No top tracks found for the user.")
-            return jsonify({"error": "No top tracks found for the user"}), 400
+        # Fetch valid genres
+        try:
+            genre_seeds_response = sp.recommendation_genre_seeds()
+            valid_genres = genre_seeds_response.get("genres", [])
+            print(f"Valid genres fetched: {valid_genres}")
+        except Exception as e:
+            print(f"Error fetching valid genres: {e}")
+            valid_genres = ["pop", "rock", "r&b", "hip-hop"]  # Fallback genres
 
-        # Select seed tracks
-        seed_tracks = np.random.choice(track_ids, size=min(5, len(track_ids)), replace=False).tolist()
-        print(f"Seed tracks selected: {seed_tracks}")
+        # Fetch user's top artists
+        top_artists = sp.current_user_top_artists(limit=20, time_range='medium_term')
+        artist_ids = [artist["id"] for artist in top_artists["items"]]
+        user_genres = []
+        for artist in top_artists['items']:
+            user_genres.extend(artist['genres'])
+        user_genres = list(set(user_genres))  # Deduplicate genres
 
-        # Ensure seed tracks are URL-encoded
-        seed_tracks_encoded = [quote(track) for track in seed_tracks]
+        # Filter user genres to only include valid genres
+        filtered_genres = [genre for genre in user_genres if genre in valid_genres]
+
+        # Select seeds
+        selected_genres = random.sample(filtered_genres, min(len(filtered_genres), 2)) if filtered_genres else ["pop"]
+        selected_artists = random.sample(artist_ids, min(len(artist_ids), 2)) if artist_ids else []
+        selected_tracks = random.sample(track_ids, min(len(track_ids), 2)) if track_ids else []
+
+        print(f"Seed Artists: {selected_artists}")
+        print(f"Seed Genres: {selected_genres}")
+        print(f"Seed Tracks: {selected_tracks}")
+
+        # Define tunable attributes (example: energy target)
+        target_attributes = {"target_energy": 0.7}  # Example of a tunable attribute
 
         # Fetch recommendations
-        recommendations = sp.recommendations(seed_tracks=seed_tracks_encoded, limit=8)
-        if not recommendations["tracks"]:
-            print("No recommendations returned from Spotify.")
-            return jsonify({"error": "No recommendations available"}), 400
+        try:
+            # recommendations = sp.recommendations(
+            #     seed_artists=selected_artists,
+            #     seed_genres=selected_genres,
+            #     seed_tracks=selected_tracks,
+            #     limit=8,
+            #     **target_attributes
+            # )
+            recommendations = sp.recommendations(
+                seed_artists=['4NHQUGzhtTLtQpj6mXP7sG'],
+                seed_genres=['rock'],
+                seed_tracks=['6habFhsOp2NvshLv26DqMb'],
+                limit=8,
+                target_energy=0.7
+)
+            print(f"Fetched recommendations: {recommendations}")
+        except Exception as e:
+            print(f"Error fetching recommendations: {e}")
+            return jsonify({"error": f"Failed to fetch recommendations: {e}"}), 500
 
         # Format recommended tracks
         recommended_tracks = [
             {
                 "name": track["name"],
                 "artist": track["artists"][0]["name"],
+                "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None,
                 "preview_url": track.get("preview_url"),
                 "external_url": track["external_urls"]["spotify"],
             }
             for track in recommendations["tracks"]
         ]
 
-        print("Recommendations successfully generated.")
         return jsonify({"recommendations": recommended_tracks})
-    except spotipy.SpotifyException as e:
-        print(f"Spotify API error: {e}")
-        return jsonify({"error": f"Spotify API error: {e}"}), 500
+
     except Exception as e:
         print(f"Unexpected error: {e}")
         return jsonify({"error": f"Unexpected error: {e}"}), 500
